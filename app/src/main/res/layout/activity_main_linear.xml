@@ -22,20 +22,21 @@
 <!--row 2-->
     <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:gravity="fill"
+        android:layout_width="match_parent"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/button"
-            android:layout_width="222dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/button_text" />
 
         <CheckBox
             android:id="@+id/checkBox2"
-            android:layout_width="208dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/checkbox_text" />
 
     </LinearLayout>
@@ -48,30 +49,23 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="TODO"
+            android:layout_weight="1"
             app:srcCompat="@drawable/flag" />
 
         <Switch
             android:id="@+id/switch1"
-            android:layout_width="205dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/switch_text" />
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edit_text"
             android:inputType="textPersonName"/>
-    </LinearLayout>
-
-
-
 </LinearLayout>

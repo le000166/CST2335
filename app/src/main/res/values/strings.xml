@@ -1,7 +1,5 @@
 <resources>
-<!--    <string name="app_name">Android Labs</string>-->
-<!--    <string name="hello_message">Look at my GUI</string>-->
-<!--    <string name="ButtonText">CLICK HERE</string>-->
+    <!--Lab 1-->
     <string name="app_name">Android Labs</string>
     <string name="text_view">Look at my GUI</string>
     <string name="button_text">CLICK HERE</string>
@@ -10,4 +8,18 @@
     <string name="edit_text">Type here</string>
     <string name="image_description">Flag Canada</string>
 
+    <!--Login Page-->
+    <string name="textView1">Enter your email address:</string>
+    <string name="editText1">Type email here</string>
+    <string name="textView2">Type your password:</string>
+    <string name="button1">Login</string>
+
+    <!--Profile Page-->
+    <string name="textView3">Your profile</string>
+    <string name="textView4">your name:</string>
+    <string name="editText2">Enter your name</string>
+    <string name="textView5">your email</string>
+    <string name="editText3">Enter your email</string>
+    <string name="textView6">Your picture:</string>
+    <string name="textView7">click the button above to take picture</string>
 </resources>

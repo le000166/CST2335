@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <string name="app_name">Android Labs</string>-->
-<!--    <string name="hello_message">Hãy nhìn vào GUI</string>-->
-<!--    <string name="ButtonText">Đây là nút bấm</string>-->
-    <string name="app_name">Android Labs</string>
-    <string name="text_view">Hãy nhìn vào GUI</string>
-    <string name="button_text">Bấm vô</string>
-    <string name="checkbox_text">Thử coi</string>
-    <string name="switch_text">Đổi tắt/mở</string>
-    <string name="edit_text">Gõ ở đây</string>
-    <string name="image_description">Flag Vietnam</string>
+    <!--Lab 1-->
+    <string name="app_name">Ứng Dụng Thực Hành</string>
+    <string name="text_view">Nhìn vô GUI</string>
+    <string name="button_text">Nhấn vô đây</string>
+    <string name="checkbox_text">Chọn cái ni!</string>
+    <string name="switch_text">Tắt/mở </string>
+    <string name="edit_text">Gõ vô</string>
+    <string name="image_description">Cờ Việt Nam</string>
+
+    <!--Login Page-->
+    <string name="textView1">Nhập Email của bạn:</string>
+    <string name="editText1">Nhập Email ở đây</string>
+    <string name="textView2">Nhập mật khẩu của bạn:</string>
+    <string name="button1">Đăng nhập</string>
+
+
+    <!--Profile Page-->
+    <string name="textView3">Thông tin của bạn</string>
+    <string name="textView4">Tên: </string>
+    <string name="editText2">Nhập tên của bạn</string>
+    <string name="textView5">Email của bạn:</string>
+    <string name="editText3">Nhập email của bạn: </string>
+    <string name="textView6">Ảnh của bạn:</string>
+    <string name="textView7">Nhấn nút ở trên để chụp </string>
 </resources>
