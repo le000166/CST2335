@@ -8,8 +8,6 @@ import android.provider.MediaStore;
 import android.widget.ImageButton;
 import android.widget.EditText;
 
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -25,11 +23,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent dataFromPreviousPage = getIntent();
         String emailFromPage1 = dataFromPreviousPage.getStringExtra("typedEmail");
+
         EditText typedEmail = findViewById(R.id.editText4);
         typedEmail.setText(emailFromPage1);
 
         //getting the imageButton
-        ImageButton mImageButton = (ImageButton)findViewById(R.id.imageButton4);
+        mImageButton = (ImageButton)findViewById(R.id.imageButton4);
 
         if(mImageButton != null){
             mImageButton.setOnClickListener(clk -> {
@@ -37,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
             }); // end clickListener
         }
 
-        Log.e(ACTIVITY_NAME, "we're logging from oncreate() method!");
+        Log.e(ACTIVITY_NAME, "In function: OnCreate()");
     }
 
     private void dispatchTakePictureIntent() {
@@ -56,7 +55,37 @@ public class ProfileActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mImageButton.setImageBitmap(imageBitmap);
         }
-        Log.e(ACTIVITY_NAME, "we're logging from onActivityResult() method!");
+        Log.e(ACTIVITY_NAME, "In function: onActivityResult()");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(ACTIVITY_NAME, "In function: onStart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(ACTIVITY_NAME, "In function: onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(ACTIVITY_NAME, "In function: onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e(ACTIVITY_NAME, "In function: onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(ACTIVITY_NAME, "In function: onDestroy()");
     }
 
 }
