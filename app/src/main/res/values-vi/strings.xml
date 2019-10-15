@@ -24,4 +24,11 @@
     <string name="editText3">Nhập email của bạn: </string>
     <string name="textView6">Ảnh của bạn:</string>
     <string name="textView7">Nhấn nút ở trên để chụp </string>
+
+
+    <string name="button4">Tin nhắn</string>
+    <string name="button5">Gửi</string>
+    <string name="editText4">Nhập tin nhắn</string>
+    <string name="button6">Nhận</string>
+
 </resources>

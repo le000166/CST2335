@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.EditText;
 
@@ -34,6 +35,15 @@ public class ProfileActivity extends AppCompatActivity {
             mImageButton.setOnClickListener(clk -> {
                 dispatchTakePictureIntent();
             }); // end clickListener
+        }
+
+        //use a Lambda function to set a click listener to go to the activity_chatroom
+        Button chatRoomButton = (Button)findViewById(R.id.button4);
+        if( chatRoomButton!= null){
+            chatRoomButton.setOnClickListener(clk -> {
+                Intent goToChatRoomPage = new Intent(this, ChatRoomActivity.class);
+                startActivityForResult(goToChatRoomPage, 30);
+            });
         }
 
         Log.e(ACTIVITY_NAME, "In function: OnCreate()");

@@ -22,4 +22,11 @@
     <string name="editText3">Enter your email</string>
     <string name="textView6">Your picture:</string>
     <string name="textView7">click the button above to take picture</string>
+
+    <!--chat room layout-->
+    <string name="button4">Go to chat</string>
+    <string name="button5">Send</string>
+    <string name="editText4">Type here</string>
+    <string name="button6">Receive</string>
+
 </resources>
