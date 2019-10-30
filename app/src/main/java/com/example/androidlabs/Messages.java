@@ -5,17 +5,22 @@ public class Messages {
     //Android Studio hint: to create getter and setter, put mouse on variable and click "alt+insert"
     protected String messages;
     protected boolean isSend;
+    protected long id;
+
 
     /**Constructor*/
-    public Messages(String m, boolean i) {
+    public Messages(String m,long id, boolean i) {
         this.setMessages(m);
-        isSend = i;
-
+        this.setId(id);
+        this.setOwnerOfMessage(i);
     }
 
     /**Chaining constructor*/
-    public Messages(String n) {this(n, true);}
 
+    //mainly use
+    public Messages(String m, boolean checked) {
+        this(m, 1, checked);
+    }
 
     public String getMessages() {
         return messages;
@@ -28,4 +33,15 @@ public class Messages {
     public boolean isSend() {
         return this.isSend;
     }
+
+    public void setOwnerOfMessage(boolean isSend) { this.isSend = isSend; }
+
+
+    public void setId(long id) { this.id = id; }
+
+    public long getId() {
+        return this.id;
+    }
+
+
 }

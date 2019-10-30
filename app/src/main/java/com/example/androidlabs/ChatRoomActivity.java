@@ -1,5 +1,8 @@
 package com.example.androidlabs;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,19 +45,67 @@ public class ChatRoomActivity extends AppCompatActivity {
         ListView theList = (ListView) findViewById(R.id.the_list);
 
 
+        //get a database:
+        MyDatabaseOpenHelper dbOpener = new MyDatabaseOpenHelper(this);
+        SQLiteDatabase db = dbOpener.getWritableDatabase();
+
+        //query all the results from the database:
+        String [] columns = {MyDatabaseOpenHelper.COL_ID, MyDatabaseOpenHelper.COL_MESSAGE, MyDatabaseOpenHelper.COL_BOOLEAN};
+        Cursor results = db.query(false, MyDatabaseOpenHelper.TABLE_NAME, columns, null, null, null, null, null, null);
+
+
+
+        //find the column indices:
+        int messageColumnIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_MESSAGE);
+        int idColumnIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_ID);
+        int checkColumnIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_BOOLEAN);
+
+
+        //results.moveToFirst();
+        //iterate over the results, return true if there is a next item:
+        while(results.moveToNext())
+        {
+            String messageData = results.getString(messageColumnIndex);
+            int checkData = results.getInt(checkColumnIndex);
+            boolean isSend = true;
+
+            if (checkData == 0) {
+                isSend = false;
+            }
+
+            long idData = results.getLong(idColumnIndex);
+
+            //add the new Message to the array list:
+            chatList.add(new Messages(messageData, idData, isSend));
+        }
+
+
+
+        //create an adapter object and send it to the listVIew
+        myAdapter = new MyOwnAdapter();
+        theList.setAdapter(myAdapter);
+        theList.setSelection(myAdapter.getCount()-1);
+
         //SENDING BUTTON ON CLICK
         sendButton.setOnClickListener(clk -> {
             String sendMessage = message.getText().toString();
 
-            Messages newMessage = new Messages(sendMessage, true);
+            ContentValues newRowValues = new ContentValues();
+            //put string name in the NAME column:
+            newRowValues.put(MyDatabaseOpenHelper.COL_MESSAGE, sendMessage);
+            //put string email in the EMAIL column:
+            newRowValues.put(MyDatabaseOpenHelper.COL_BOOLEAN, 1);
+            //insert in the database:
+            long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
+            //now you have the newId, you can create the Message object
+            Messages messages = new Messages(sendMessage, newId, true);
 
-            //add the new contact to the list:
-            chatList.add(newMessage);
+            //add the new message to the list:
+            chatList.add(messages);
             //update the listView:
-            myAdapter = new MyOwnAdapter();
-            theList.setAdapter(myAdapter);
             myAdapter.notifyDataSetChanged();
-//            theList.smoothScrollToPosition(myAdapter.getCount());
+
+            //show up at the most recent added content eveything added
             theList.setSelection(myAdapter.getCount()-1);
             message.setText("");
 
@@ -62,23 +113,28 @@ public class ChatRoomActivity extends AppCompatActivity {
             //Snackbar.make(sendButton, "Message is sent from SEND", Snackbar.LENGTH_SHORT).show();
             //
         });
-//
+
+        //RECEIVER BUTTON ON CLICK
         receiveButton.setOnClickListener(clk -> {
 
-
             String receiveMessage = message.getText().toString();
-            Messages newMessage = new Messages(receiveMessage, false);
+            ContentValues newRowValues = new ContentValues();
+            //put string name in the NAME column:
+            newRowValues.put(MyDatabaseOpenHelper.COL_MESSAGE, receiveMessage);
+            //put string email in the EMAIL column:
+            newRowValues.put(MyDatabaseOpenHelper.COL_BOOLEAN, 0);
+            //insert in the database:
+            long newId = db.insert(MyDatabaseOpenHelper.TABLE_NAME, null, newRowValues);
+            //now you have the newId, you can create the Message object
+            Messages messages = new Messages(receiveMessage, newId, false);
 
-            //add the new contact to the list:
-            chatList.add(newMessage);
+            //add the new message to the list:
+            chatList.add(messages);
             //update the listView:
-            myAdapter = new MyOwnAdapter();
-            theList.setAdapter(myAdapter);
             myAdapter.notifyDataSetChanged();
-//            theList.smoothScrollToPosition(myAdapter.getCount());
-            //visible at the current added position
-            theList.setSelection(myAdapter.getCount()-1);
 
+            //show up at the most recent added content eveything added
+            theList.setSelection(myAdapter.getCount()-1);
             message.setText("");
 
             //show a notification: first parameter is any view on screen. second parameter is the text. Third parameter is the length (SHORT/LONG)
@@ -87,8 +143,35 @@ public class ChatRoomActivity extends AppCompatActivity {
         });
 
 
+        results.moveToFirst();
+//        int hello = MyDatabaseOpenHelper.VERSION_NUM;
+//        Log.e(String.valueOf(hello), " Version num");
 
+        printCursor(results);
         Log.e(ACTIVITY_NAME, "In function: OnCreate()");
+    }
+
+    protected void printCursor(Cursor c) {
+
+        Log.e(String.valueOf(MyDatabaseOpenHelper.VERSION_NUM), "Database version number");
+
+        Log.e(String.valueOf(c.getColumnCount()), "Number of columns");
+
+        String[] columns = c.getColumnNames();
+
+        for (String name : columns
+             ) {
+            Log.d(name, "Column of the cursor");
+        }
+
+        Log.e(String.valueOf(c.getCount()), "number of results in the cursor");
+
+        c.moveToFirst();
+        while (c.moveToNext()) {
+            Log.e(c.getString(c.getColumnIndex(MyDatabaseOpenHelper.COL_MESSAGE)), "printCursor: Message");
+            Log.e(String.valueOf(c.getInt(c.getColumnIndex(MyDatabaseOpenHelper.COL_ID))), "printCursor: ColumnID");
+            Log.e(String.valueOf(c.getInt(c.getColumnIndex(MyDatabaseOpenHelper.COL_BOOLEAN))), "printCursor: IsSend");
+        }
     }
 
     //This class needs 4 functions to work properly:
@@ -114,9 +197,6 @@ public class ChatRoomActivity extends AppCompatActivity {
             if (getItem(position).isSend()) {
                 rowView = inflater.inflate(R.layout.left_row, parent, false);
                 rowMessage = (TextView) rowView.findViewById(R.id.left_message);
-                ImageView i1 = (ImageView) rowView.findViewById(R.id.icon_left);
-                i1.setImageResource(R.drawable.row_send);
-                rowMessage.setText(thisRow.getMessages());
             } else {
                 rowView = inflater.inflate(R.layout.right_row, parent, false);
                 rowMessage = (TextView) rowView.findViewById(R.id.right_message);
@@ -125,17 +205,6 @@ public class ChatRoomActivity extends AppCompatActivity {
 
             rowMessage.setText(thisRow.getMessages());
 
-
-            /*Class object
-            String message
-            boolean
-
-            if(messages.get(p).isSend())
-                thisRow(sendLayout)
-            Else
-            thisRow(receiveLayout)*/
-
-            //return the row:
             return rowView;
         }
 
@@ -143,6 +212,8 @@ public class ChatRoomActivity extends AppCompatActivity {
             return position;
         }
     }
+
+
 }
 
 
