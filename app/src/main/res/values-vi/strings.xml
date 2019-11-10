@@ -32,6 +32,12 @@
     <string name="editText4">Nhập tin nhắn</string>
     <string name="button6">Nhận</string>
 
+    <string name="temperature">Current Temperature: </string>
+    <string name="min">Lowest: </string>
+    <string name="max">Highest: </string>
+    <string name="uvRating">UV Rating: </string>
+    <string name="refreshButton">Click To Refresh</string>
+
 
 
 </resources>

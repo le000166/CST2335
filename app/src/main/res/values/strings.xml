@@ -30,6 +30,13 @@
     <string name="editText4">Type here</string>
     <string name="button6">Receive</string>
 
+    <!--Weather Forecast Layout-->
+
+    <string name="temperature">Current Temperature: </string>
+    <string name="min">Lowest: </string>
+    <string name="max">Highest: </string>
+    <string name="uvRating">UV Rating: </string>
+    <string name="refreshButton">Click To Refresh</string>
 
 
 
