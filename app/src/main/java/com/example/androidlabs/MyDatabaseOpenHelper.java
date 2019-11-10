@@ -8,14 +8,13 @@ import android.util.Log;
 public class MyDatabaseOpenHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "MyDatabaseFile";
-    public static final int VERSION_NUM = 10;
+    public static final int VERSION_NUM = 11;
     public static final String TABLE_NAME = "Messages";
     public static final String COL_MESSAGE = "MESSAGE";
     public static final String COL_ID = "_ID";
     public static final String COL_BOOLEAN = "SEND_OR_RECEIVE";
     public static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME
             + "( "+COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COL_MESSAGE+" TEXT, "+COL_BOOLEAN+" INTEGER)";
-
 
 
     public MyDatabaseOpenHelper(Activity ctx){

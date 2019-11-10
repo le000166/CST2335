@@ -61,8 +61,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         int checkColumnIndex = results.getColumnIndex(MyDatabaseOpenHelper.COL_BOOLEAN);
 
 
-        //results.moveToFirst();
-        //iterate over the results, return true if there is a next item:
+
         while(results.moveToNext())
         {
             String messageData = results.getString(messageColumnIndex);

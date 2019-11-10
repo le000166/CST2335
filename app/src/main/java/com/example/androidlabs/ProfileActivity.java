@@ -46,6 +46,17 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
 
+
+        //use a Lambda function to set a click listener to go to the activity_chatroom
+        Button weatherButton = (Button)findViewById(R.id.button7);
+        if( weatherButton!= null){
+            weatherButton.setOnClickListener(clk -> {
+                Intent goToWeatherPage = new Intent(this, WeatherForecast.class);
+                startActivityForResult(goToWeatherPage, 30);
+            });
+        }
+
+
         Log.e(ACTIVITY_NAME, "In function: OnCreate()");
     }
 
