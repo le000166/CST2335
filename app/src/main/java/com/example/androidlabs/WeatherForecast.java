@@ -38,9 +38,6 @@ import static org.xmlpull.v1.XmlPullParser.TEXT;
 
 public class WeatherForecast extends AppCompatActivity {
     public static final String ACTIVITY_NAME = "WeatherForcast";
-    String iconName;
-    //String imageUrl = "http://openweathermap.org/img/w/" + iconName + ".png";
-
 
     TextView temperatureText;
     TextView minText;
@@ -65,6 +62,7 @@ public class WeatherForecast extends AppCompatActivity {
         weatherImage = (ImageView) findViewById(R.id.weatherImage);
 
 
+
         ForecastQuery theQuery = new ForecastQuery();
         theQuery.execute();
         myProgressBar.setVisibility(View.VISIBLE);
@@ -81,6 +79,7 @@ public class WeatherForecast extends AppCompatActivity {
 
     }
 
+    //Image
     protected static Bitmap getImage(URL url) {
 
         HttpURLConnection iconConn = null;
@@ -104,7 +103,7 @@ public class WeatherForecast extends AppCompatActivity {
     }
 
     public boolean fileExistance(String fileName) {
-//        Log.i(ACTIVITY_NAME, getBaseContext().getFileStreamPath(fileName).toString());
+        Log.i(ACTIVITY_NAME, getBaseContext().getFileStreamPath(fileName).toString());
         File file = getBaseContext().getFileStreamPath(fileName);
         return file.exists();
     }
@@ -119,10 +118,6 @@ public class WeatherForecast extends AppCompatActivity {
         finish();
     }
 
-
-
-
-
     private class ForecastQuery extends AsyncTask<String, Integer, String> {
 
         String currentTemperature;
@@ -133,20 +128,18 @@ public class WeatherForecast extends AppCompatActivity {
         String ret = null;
         String uvRatingValue;
 
+        Double uvDouble;
+
         @Override
         protected String doInBackground(String... strings) {
             ret = null;
             String queryURL = "http://api.openweathermap.org/data/2.5/" +
                     "weather?q=ottawa,ca&APPID=7e943c97096a9784391a981c4d878b22&mode=xml&units=metric";
-                // Connecting to the server
 
 
-            for(int i = 0; i < 100; i++)
-            {
-
-                publishProgress(i);
 
 
+                // Connecting to the server. First to get the Temperature
                 try {
                     URL url = new URL(queryURL);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -169,24 +162,30 @@ public class WeatherForecast extends AppCompatActivity {
                                     //XMLPullParser has a getAttributeValue(String namespace, String name)
                                     // function which will give you those values
                                     currentTemperature = xpp.getAttributeValue(null, "value");
-                                    //publishProgress(25);
+
+                                    publishProgress(25);
+                                    try{Thread.sleep(500);} catch(Exception e){ Log.i("ASYNC FROZE", "Frozen"); }
 
                                     min = xpp.getAttributeValue(null, "min");
-                                    //ublishProgress(50);
+                                    publishProgress(50);
+                                    try{Thread.sleep(500);} catch(Exception e){ Log.i("ASYNC FROZE", "Frozen"); }
 
                                     max = xpp.getAttributeValue(null, "max");
-                                    //publishProgress(75);
+                                    publishProgress(75);
+                                    try{Thread.sleep(500);} catch(Exception e){ Log.i("ASYNC FROZE", "Frozen"); }
 
                                 } else if (tagName.equals("weather")) {
                                     iconName = xpp.getAttributeValue(null, "icon");
-//                                    iconName = "11d";
+
                                     String iconNameFile = iconName + ".png";
 
                                     //If the Image file exists, then you don’t need to re-download it, just read it from your disk:
                                     if (fileExistance(iconNameFile)) {
                                         FileInputStream inputStream = null;
                                         try {
+                                            //inputStream = openFileInput(iconNameFile);
                                             inputStream = new FileInputStream(getBaseContext().getFileStreamPath(iconNameFile));
+                                            Log.d(ACTIVITY_NAME, "Finding the img locally");
                                         } catch (FileNotFoundException e) {
                                             e.printStackTrace();
                                         }
@@ -194,7 +193,7 @@ public class WeatherForecast extends AppCompatActivity {
                                         image = BitmapFactory.decodeStream(inputStream);
 //                                        Write Log.i() messages showing which filename you are looking for,
 //                                        and a message saying if you found the image locally, or if you need to download it.
-                                        Log.i(ACTIVITY_NAME, "Image already exists");
+                                        Log.d(ACTIVITY_NAME, "Image already exists");
                                     } else {
                                         URL iconUrl = new URL("http://openweathermap.org/img/w/" + iconName + ".png");
                                         image = getImage(iconUrl);
@@ -202,11 +201,12 @@ public class WeatherForecast extends AppCompatActivity {
                                         image.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
                                         outputStream.flush();
                                         outputStream.close();
-                                        Log.i(ACTIVITY_NAME, "Adding new image");
+                                        Log.d(ACTIVITY_NAME, "Downloading the image from URL");
                                     }
-                                    Log.i(ACTIVITY_NAME, "file name=" + iconNameFile);
+                                    Log.d(ACTIVITY_NAME, "file name=" + iconNameFile);
 
-//                                    publishProgress(100);
+                                    publishProgress(100);
+                                    try{Thread.sleep(200);} catch(Exception e){ Log.i("ASYNC FROZE", "Frozen"); }
                                 }
                                 break;
                             case END_TAG:           //This is an end tag: </ ... >
@@ -217,6 +217,42 @@ public class WeatherForecast extends AppCompatActivity {
                         xpp.next(); // move the pointer to next XML element
                     }
 
+
+                    //UV Rating getting
+                    double lat = 45.348945, lon = -75.759389;
+                    String jsonUrl = "http://api.openweathermap.org/data/2.5/uvi?" +
+                        "appid=7e943c97096a9784391a981c4d878b22&lat="+lat+"&lon="+lon;
+
+                    URL urlUv = new URL(jsonUrl);
+                    HttpURLConnection urlConnectionUv = (HttpURLConnection) urlUv.openConnection();
+                    InputStream inStreamUv = urlConnectionUv.getInputStream();
+
+                    //Set up the JSON object parser:
+                    // json is UTF-8 by default
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inStreamUv, "UTF-8"), 8);
+                    StringBuilder sb = new StringBuilder();
+
+                    String line = null;
+                    //readLine return the string of the line until the end
+                    while ((line = reader.readLine()) != null)
+                    {
+                        //returning a StringBuilder object with nextLine for each string
+                        sb.append(line + "\n");
+                    }
+
+                    //Creating Json Object must be surrounded in a try catch block
+                    try {
+                        //creating Json object from StringBuilder
+                        JSONObject obj = new JSONObject(sb.toString());
+                        uvRatingValue = obj.getString("value");
+                    } catch (org.json.JSONException e ) {
+                        ret = "JSONException ?";
+                        e.printStackTrace();}
+
+                    Log.d("Response: ", "> " + line);
+                    urlConnection.disconnect();
+
+
                 } catch (MalformedURLException mfe) {
                     ret = "Malformed URL exception";
                 } catch (IOException ioe) {
@@ -225,37 +261,6 @@ public class WeatherForecast extends AppCompatActivity {
                     ret = "XML Pull exception. The XML is not properly formed";
                 }
 
-                //Getting UV Rating
-
-                double lat = 45.348945, lon = -75.759389;
-
-                String jsonUrl = "http://api.openweathermap.org/data/2.5/uvi?" +
-                        "appid=7e943c97096a9784391a981c4d878b22&lat="+lat+"&lon="+lon;
-
-                try {       // Connect to the server:
-                    URL url = new URL(jsonUrl);
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    InputStream inStream = urlConnection.getInputStream();
-
-                    //Set up the JSON object parser:
-                    // json is UTF-8 by default
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"), 8);
-                    StringBuilder sb = new StringBuilder();
-
-                    String line = null;
-                    while ((line = reader.readLine()) != null)
-                    {
-                        sb.append(line + "\n");
-                    }
-
-                    JSONObject obj = new JSONObject(sb.toString());
-                    uvRatingValue = obj.getString("value");
-                    Log.d("Response: ", "> " + line);
-
-                }
-                catch (MalformedURLException e) { e.printStackTrace(); }
-                catch(Exception e){ e.printStackTrace();}
-            }
                 //What is returned here will be passed as a parameter to onPostExecute:
                 return ret;
         }
@@ -273,7 +278,8 @@ public class WeatherForecast extends AppCompatActivity {
                 temperatureText.setText(temperatureText.getText()+" "+currentTemperature+degree+"C");
                 minText.setText(minText.getText()+" "+min+degree+"C");
                 maxText.setText(maxText.getText()+" "+max+degree+"C");
-                uvRating.setText(uvRating.getText()+" "+uvRatingValue);
+            uvRating.setText(uvRating.getText()+" "+uvRatingValue);
+                //uvRating.setText(uvRating.getText()+" "+String.valueOf(uvDouble));
             weatherImage.setImageBitmap(image);
             myProgressBar.setVisibility(View.INVISIBLE);
         }

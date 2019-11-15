@@ -7,7 +7,6 @@ public class Messages {
     protected boolean isSend;
     protected long id;
 
-
     /**Constructor*/
     public Messages(String m,long id, boolean i) {
         this.setMessages(m);

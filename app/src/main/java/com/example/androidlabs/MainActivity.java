@@ -1,13 +1,12 @@
 package com.example.androidlabs;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         if( login!= null){
             login.setOnClickListener(clk -> {
                 Intent goToPage2 = new Intent(MainActivity.this, ProfileActivity.class);
-
                 goToPage2.putExtra("typedEmail", emailInput.getText().toString());
 
                 startActivityForResult(goToPage2, 30);

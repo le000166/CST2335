@@ -19,24 +19,28 @@
         android:id="@+id/temperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="@string/temperature" />
 
     <TextView
         android:id="@+id/min"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="@string/min" />
 
     <TextView
         android:id="@+id/max"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="@string/max" />
 
     <TextView
         android:id="@+id/uvRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="@string/uvRating"/>
 
     <ProgressBar
@@ -45,6 +49,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:visibility="invisible"/>
 
     <Button
