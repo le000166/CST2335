@@ -70,4 +70,10 @@
         android:layout_height="wrap_content"
         android:text="@string/button7"/>
 
+    <Button
+        android:id="@+id/goToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/toolBarPagebtn" />
+
 </LinearLayout>

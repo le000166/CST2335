@@ -37,7 +37,5 @@
     <string name="max">Highest: </string>
     <string name="uvRating">UV Rating: </string>
     <string name="refreshButton">Click To Refresh</string>
-
-
-
+    <string name="toolBarPagebtn" translatable="false">Go To Toolbar Page</string>
 </resources>

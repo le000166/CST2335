@@ -249,7 +249,7 @@ public class WeatherForecast extends AppCompatActivity {
                         ret = "JSONException ?";
                         e.printStackTrace();}
 
-                    Log.d("Response: ", "> " + line);
+                    Log.d("UV Rating: ", "> " + uvRatingValue);
                     urlConnection.disconnect();
 
 
